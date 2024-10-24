@@ -34,19 +34,22 @@ function Dashboard() {
 
   async function handleSignOut() {
     await supabase.auth.signOut()
-    // Optionally, you can navigate to the auth page after signing out
-    navigate('/auth') // Uncomment this if you want to redirect after logout
+    navigate('/auth') // Redirect to auth page after signing out
   }
 
+  // Capitalize the first letter of the user's name
+  const userName = user.email.split('@')[0] // Get the part before the '@'
+  const capitalizedUserName = userName.charAt(0).toUpperCase() + userName.slice(1) // Capitalize the first letter
+
   return (
-    <div className="max-w-md mx-auto p-4">
+    <div className="h-[95vh] max-w-md mx-auto p-4 border border-gray-300 rounded-lg" style={{ borderWidth: '0.3px', borderRadius: '5px' }}>
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white">
-            {user.email[0].toUpperCase()}
+            {capitalizedUserName[0]} {/* Display the first letter of the capitalized name */}
           </div>
           <div>
-            <h1 className="text-xl font-semibold">Hey, {user.email.split('@')[0]}</h1>
+            <h1 className="text-xl font-semibold">Hey, {capitalizedUserName}</h1> {/* Use the capitalized name */}
             <p className="text-sm text-gray-600">Welcome back</p>
           </div>
         </div>

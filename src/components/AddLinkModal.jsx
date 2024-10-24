@@ -8,13 +8,25 @@ function AddLinkModal({ onClose, onAdd }) {
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!url) {
+    // Create a new variable for the modified URL
+    let modifiedUrl = url
+
+    // Check if the URL starts with "http://" or "https://"
+    if (!modifiedUrl.startsWith('http://') && !modifiedUrl.startsWith('https://')) {
+      // If not, prepend "https://"
+      modifiedUrl = 'https://' + modifiedUrl
+    }
+
+    // Remove "https://" if it was added by the user
+    const sanitizedUrl = modifiedUrl.replace(/^https:\/\//, '')
+
+    if (!sanitizedUrl) {
       toast.error('Please fill the URL field')
       return
     }
 
     try {
-      const urlObj = new URL(url)
+      const urlObj = new URL(modifiedUrl)
       const icon = `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=128`
       const title = urlObj.hostname // Set title based on the URL
 
@@ -22,7 +34,7 @@ function AddLinkModal({ onClose, onAdd }) {
         .from('links')
         .insert([{ 
           title, 
-          url,
+          url: modifiedUrl,
           icon,
           user_id: (await supabase.auth.getUser()).data.user.id
         }])

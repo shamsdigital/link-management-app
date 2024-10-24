@@ -15,7 +15,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Toaster position="top-center" />
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-gray-100 pt-4 mb-4">
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route
