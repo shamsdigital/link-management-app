@@ -26,6 +26,7 @@ function Auth() {
 
       if (isSignUp) {
         toast.success('Check your email to confirm your account')
+        navigate('/') // Redirect to main page after signup
       } else {
         toast.success('Successfully signed in')
         navigate('/')
@@ -48,7 +49,7 @@ function Auth() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 ease-in-out"
               placeholder="Enter your email"
             />
           </div>
@@ -58,13 +59,13 @@ function Auth() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200 ease-in-out"
               placeholder="Enter your password"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600"
+            className="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-200"
           >
             {isSignUp ? 'Sign Up' : 'Sign In'}
           </button>

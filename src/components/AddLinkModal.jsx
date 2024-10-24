@@ -3,20 +3,20 @@ import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
 
 function AddLinkModal({ onClose, onAdd }) {
-  const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
 
-    if (!title || !url) {
-      toast.error('Please fill all fields')
+    if (!url) {
+      toast.error('Please fill the URL field')
       return
     }
 
     try {
       const urlObj = new URL(url)
       const icon = `https://www.google.com/s2/favicons?domain=${urlObj.hostname}&sz=128`
+      const title = urlObj.hostname // Set title based on the URL
 
       const { error } = await supabase
         .from('links')
@@ -45,16 +45,6 @@ function AddLinkModal({ onClose, onAdd }) {
       <div className="bg-white rounded-xl p-6 w-full max-w-md">
         <h2 className="text-xl font-semibold mb-4">Add New Link</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Name</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full p-2 border rounded-lg"
-              placeholder="Enter link name"
-            />
-          </div>
           <div>
             <label className="block text-sm font-medium mb-1">URL</label>
             <input

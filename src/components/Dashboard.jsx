@@ -5,11 +5,13 @@ import { FiLogOut, FiPlus } from 'react-icons/fi'
 import LinkCard from './LinkCard'
 import AddLinkModal from './AddLinkModal'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 function Dashboard() {
   const { user } = useAuth()
   const [links, setLinks] = useState([])
   const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchLinks()
@@ -32,6 +34,8 @@ function Dashboard() {
 
   async function handleSignOut() {
     await supabase.auth.signOut()
+    // Optionally, you can navigate to the auth page after signing out
+    navigate('/auth') // Uncomment this if you want to redirect after logout
   }
 
   return (
