@@ -5,3 +5,14 @@
 body {
   @apply bg-gray-100;
 }
+
+/* Hide scrollbar for Webkit browsers */
+.space-y-3::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar */
+  background: transparent; /* Optional: make background transparent */
+}
+
+/* Hide scrollbar for Firefox */
+.space-y-3 {
+  scrollbar-width: none; /* Hide scrollbar */
+}

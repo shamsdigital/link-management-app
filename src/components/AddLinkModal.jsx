@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
+import Select from 'react-select'
+
+const categoryOptions = [
+  { value: 'Design', label: 'Design' },
+  { value: 'Database', label: 'Database' },
+  { value: 'Frontend', label: 'Frontend' },
+  { value: 'NoCode', label: 'NoCode' },
+  { value: 'FullStack', label: 'FullStack' },
+  { value: 'UI', label: 'UI' },
+  { value: 'Backend', label: 'Backend' },
+  { value: 'AI', label: 'AI' },
+]
 
 function AddLinkModal({ onClose, onAdd }) {
   const [url, setUrl] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState([]) // Updated to hold selected categories
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -20,8 +33,8 @@ function AddLinkModal({ onClose, onAdd }) {
     // Remove "https://" if it was added by the user
     const sanitizedUrl = modifiedUrl.replace(/^https:\/\//, '')
 
-    if (!sanitizedUrl) {
-      toast.error('Please fill the URL field')
+    if (!sanitizedUrl || selectedCategories.length === 0) {
+      toast.error('Please fill the URL and select at least one category')
       return
     }
 
@@ -36,6 +49,7 @@ function AddLinkModal({ onClose, onAdd }) {
           title, 
           url: modifiedUrl,
           icon,
+          category: selectedCategories.map(cat => cat.value).join(', '), // Join selected categories as a string
           user_id: (await supabase.auth.getUser()).data.user.id
         }])
 
@@ -65,6 +79,18 @@ function AddLinkModal({ onClose, onAdd }) {
               onChange={(e) => setUrl(e.target.value)}
               className="w-full p-2 border rounded-lg"
               placeholder="Enter URL"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Categories</label>
+            <Select
+              options={categoryOptions}
+              value={selectedCategories}
+              onChange={setSelectedCategories}
+              isMulti // Enable multi-select
+              className="basic-single"
+              classNamePrefix="select"
+              placeholder="Select categories"
             />
           </div>
           <div className="flex gap-2 justify-end">

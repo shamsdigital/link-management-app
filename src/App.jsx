@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard'
 import Auth from './components/Auth'
 import { AuthProvider, useAuth } from './context/AuthContext'
 
+
 function PrivateRoute({ children }) {
   const { user } = useAuth()
   return user ? children : <Navigate to="/auth" />
@@ -15,7 +16,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Toaster position="top-center" />
-        <div className="min-h-screen bg-gray-100 pt-4 mb-4">
+        <div className="min-h-screen bg-gray-100 pt-4">
           <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route
